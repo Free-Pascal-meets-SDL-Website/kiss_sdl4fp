@@ -16,6 +16,7 @@ unit kiss_general;
     kiss_draw.c (version 1.2.4).
 
   For more information on kiss_sdl4fp, visit:
+  https://github.com/Free-Pascal-meets-SDL-Website/kiss_sdl4fp
 
   Copyright (c) 2020 Matthias J. Molski
 
