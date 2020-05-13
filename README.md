@@ -18,7 +18,7 @@ maintained by Tarvo Korrovits. You can find it here: https://github.com/actsl/ki
 * permissive software license
 
 An extensive description and screenshots are found here:
-https://github.com/actsl/kiss_sdl
+https://github.com/actsl/kiss_sdl2.
 
 Some key quotes from the source above:
 
