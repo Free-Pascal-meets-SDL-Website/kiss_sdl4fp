@@ -47,7 +47,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   SysUtils,
-  FileUtil,
+  FileUtil, // Lazarus or Delphi unit
   SDL2,
   kiss_draw,
   kiss_posix,

@@ -6,3 +6,16 @@ backup/kiss_general.pas
 backup/kiss_posix.pas
 backup/kiss_widgets.pas
 backup/README.md
+*.lpi
+backup/kiss_example2.pas
+*.lpi
+*.lpi
+*.o
+*.ppu
+*.compiled
+*.a
+*.exe
+*.lpi
+*.lpi
+backup/kiss_example1.pas
+kiss_example1.lpi

@@ -62,16 +62,20 @@ the benefit of implementing them instead of directly converting C's char
 pointers used in the original project.
 
 
-## Manual
+## Manual and Examples
 
 The original project has an extensive manual, obviously written for C, but you
 can learn a lot from it about using kiss_sdl4fp, too!
 
 https://raw.githubusercontent.com/actsl/kiss_sdl/master/kiss_manual.pdf
 
+Two example files are converted, too. These serve as major source for learning
+how to use this toolkit. It is really simple, so just try it! Just compile the
+plain source code files (kiss_example1.pas, kiss_example2.pas).
+
 ## To-Do
 
-* check kiss_init(), esp. why acc. renderer down't work
+* check kiss_init(), esp. why acc. renderer doesn't work
 
 ## Version
 
