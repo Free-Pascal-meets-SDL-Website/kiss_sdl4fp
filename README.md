@@ -17,7 +17,8 @@ maintained by Tarvo Korrovits. You can find it here: https://github.com/actsl/ki
 * perfectly suitable for most SDL2 applications
 * permissive software license
 
-An extensive description is found here: https://github.com/actsl/kiss_sdl
+An extensive description and screenshots are found here:
+https://github.com/actsl/kiss_sdl
 
 Some key quotes from the source above:
 
@@ -60,7 +61,6 @@ kiss_sdl.h and the implementation c-files are combined into the following units:
 The work with Pascal's strings is much more convenient and less error prone, so
 the benefit of implementing them instead of directly converting C's char
 pointers used in the original project.
-
 
 ## Manual and Examples
 
