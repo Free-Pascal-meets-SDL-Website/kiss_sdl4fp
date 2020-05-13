@@ -1,2 +1,8 @@
 
 *.lps
+backup/kiss_draw.pas
+backup/kiss_example1.lpi
+backup/kiss_general.pas
+backup/kiss_posix.pas
+backup/kiss_widgets.pas
+backup/README.md
