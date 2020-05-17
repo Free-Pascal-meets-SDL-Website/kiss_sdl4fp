@@ -228,6 +228,9 @@ begin
   kiss_combobox_new(@combobox, @window, 'none', @a, label1.rect.x -
     kiss_edge, label2.rect.y + 2 * kiss_textfont.lineheight, combobox_width,
     combobox_height);
+  { Conv.: To create an empty entry box, the #0 char. is used here by chr(0),
+    as in the C version. If you use '' (empty string) it will translate to a nil
+    pointer and prevent the entry box from being created at all. }
   kiss_entry_new(@entry, @window, 1, chr(0), kiss_screen_width div 2 -
     entry_width div 2 + kiss_edge, combobox.entry.rect.y +
     combobox.entry.rect.h + 2 * kiss_textfont.lineheight +

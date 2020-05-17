@@ -275,6 +275,9 @@ begin
   kiss_window_new(@window2, nil, 1, kiss_screen_width div 2 -
     window2_width div 2, kiss_screen_height div 2 - window2_height div 2,
     window2_width, window2_height);
+  { Conv.: To create an empty label, the #0 character is used here by chr(0),
+    as in the C version. If you use '' (empty string) it will translate to a nil
+    pointer and prevent the label from being created at all. }
   kiss_label_new(@label_res, @window2, chr(0), window2.rect.x + kiss_up.w,
     window2.rect.y + kiss_vslider.h);
   label_res.textcolor := kiss_blue;

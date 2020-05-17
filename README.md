@@ -3,7 +3,7 @@
 kiss_sdl4fp is a conversion project of the kiss_sdl GUI widget toolkit from C to Free Pascal.
 
 kiss_sdl is a simple generic GUI widget toolkit for SDL2 written in C and
-maintained by Tarvo Korrovits. You can find it here: https://github.com/actsl/kiss_sdl2.
+maintained by Tarvo Korrovits. You can find it here: https://github.com/actsl/kiss_sdl.
 
 ## Description
 
@@ -17,10 +17,7 @@ maintained by Tarvo Korrovits. You can find it here: https://github.com/actsl/ki
 * perfectly suitable for most SDL2 applications
 * permissive software license
 
-An extensive description and screenshots are found here:
-https://github.com/actsl/kiss_sdl2.
-
-Some key quotes from the source above:
+An extensive description and screenshots are found here: https://github.com/actsl/kiss_sdl. Some key quotes from this source by Tarvo:
 
 This toolkit was made as simple as possible, to solve the problem of an immense complexity of many existing toolkits, which makes it impossible for many people to even use them. At that it was made general, many simpler toolkits don't enable you to do many things that you want, due to their restricted internal design. This toolkit implements an original innovative approach for a widget toolkit that i call principal GUI, going further from immediate GUI, this new approach enabled to make the widget toolkit simpler.
 
@@ -42,7 +39,7 @@ What is necessary for using the toolkit in a code is simple and straightforward.
 ## Main Goal of kiss_sdl4fp
 
 Keep the conversion (kiss_sdl4fp) as close as possible to the original code and
-concept of kiss_sdl.
+concept of kiss_sdl and avoidance of as many dependencies on other units as possible.
 
 Nevertheless, the nature of Pascal made deviations from this rule necessary or
 beneficial.
@@ -59,8 +56,8 @@ kiss_sdl.h and the implementation c-files are combined into the following units:
 ### Pascal strings instead of C's char pointer
 
 The work with Pascal's strings is much more convenient and less error prone, so
-the benefit of implementing them instead of directly converting C's char
-pointers used in the original project.
+the benefit of implementing them, instead of directly converting C's char
+pointers, is just too huge.
 
 ## Manual and Examples
 
