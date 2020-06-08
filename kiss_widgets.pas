@@ -362,17 +362,14 @@ implementation
     kiss_fillrect(renderer, @window^.rect, window^.bg);
     if (window^.decorate <> 0) then
       kiss_decorate(renderer, @window^.rect, kiss_blue, kiss_edge);
-    result := 1;
+    Result := 1;
   end;
 
   function kiss_label_new(label_: Pkiss_label; wdw: Pkiss_window;
     text: string; x: LongInt; y: LongInt): LongInt;
   begin
-    if (not Assigned(label_)) or (not (text <> '')) then
-    begin
-      result := -1;
-      exit;
-    end;
+    if (not Assigned(label_)) then
+      Exit(-1);
     if label_^.font.magic <> KISS_MAGIC then
       label_^.font := kiss_textfont;
     label_^.textcolor := kiss_black;
@@ -380,7 +377,7 @@ implementation
     kiss_string_copy(label_^.text, text, '');
     label_^.visible := 0;
     label_^.wdw := wdw;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_label_draw(label_: Pkiss_label; renderer: PSDL_Renderer): LongInt;
@@ -391,10 +388,7 @@ implementation
       label_^.visible := label_^.wdw^.visible;
     if (not Assigned(label_)) or (not(label_^.visible <> 0)) or
       (not Assigned(renderer)) then
-    begin
-      result := 0;
-      exit;
-    end;
+        Exit(0);
     y := label_^.rect.y + label_^.font.spacing div 2;
     len := Length(label_^.text); // Conv.: Probably obsolete for Pascal Strings.
 
@@ -413,17 +407,14 @@ implementation
 
     kiss_rendertext(renderer, label_^.text, label_^.rect.x, y, label_^.font,
       label_^.textcolor);
-    result := 1;
+    Result := 1;
   end;
 
   function kiss_button_new(button: Pkiss_button; wdw: Pkiss_window;
     text: string; x: LongInt; y: LongInt): LongInt;
   begin
     if (not Assigned(button)) or (Length(text) = 0) then
-    begin
-      result := -1;
-      exit;
-    end;
+      Exit(-1);
     if button^.font.magic <> KISS_MAGIC then
       button^.font := kiss_buttonfont;
     if button^.normalimg.magic <> KISS_MAGIC then
@@ -444,7 +435,7 @@ implementation
     button^.visible := 0;
     button^.focus := 0;
     button^.wdw := wdw;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_button_event(button: Pkiss_button; event: PSDL_Event;
@@ -452,19 +443,13 @@ implementation
   begin
     if (not Assigned(button)) or not(button^.visible <> 0) or
       (not Assigned(event)) then
-    begin
-      result := 0;
-      exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
     if not(button^.focus <> 0) and (not Assigned(button^.wdw) or
       ((Assigned(button^.wdw)) and not(button^.wdw^.focus <> 0))) then
-    begin
-      result := 0;
-      exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_MOUSEBUTTONDOWN) and (kiss_pointinrect(event^.button.x,
       event^.button.y, @button^.rect) <> 0) then
     begin
@@ -477,8 +462,8 @@ implementation
     begin
       button^.active := 0;
       draw^ := 1;
-      result := 1;
-      exit;
+      Result := 1;
+      Exit;
     end
     else if (event^.type_ = SDL_MOUSEMOTION) and
       (kiss_pointinrect(event^.motion.x, event^.motion.y, @button^.rect) <> 0) then
@@ -494,11 +479,11 @@ implementation
       if (button^.active <> 0) then
       begin
         button^.active := 0;
-        result := 1;
-        exit;
+        Result := 1;
+        Exit;
       end;
     end;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_button_draw(button: Pkiss_button; renderer: PSDL_Renderer
@@ -1026,18 +1011,12 @@ implementation
     decorate: LongInt; text: string; x: LongInt; y: LongInt; w: LongInt
     ): LongInt;
   begin
-    if (not Assigned(entry)) or (text = '') then
-    begin
-      result := -1;
-      exit;
-    end;
+    if (not Assigned(entry)) then
+      Exit(-1);
     if (entry^.font.magic <> KISS_MAGIC) then
       entry^.font := kiss_textfont;
     if (w < 2 * kiss_border + entry^.font.advance) then
-    begin
-      result := -1;
-      exit;
-    end;
+      Exit(-1);
     entry^.bg := kiss_white;
     entry^.normalcolor := kiss_black;
     entry^.activecolor := kiss_blue;
@@ -1302,7 +1281,7 @@ implementation
     text: string; a: Pkiss_array; x: LongInt; y: LongInt; w: LongInt; h: LongInt
     ): LongInt;
   begin
-    if (not Assigned(combobox)) or (not Assigned(a)) or (not(text <> '')) then
+    if (not Assigned(combobox)) or (not Assigned(a)) then
     begin
       result := -1;
       exit;
