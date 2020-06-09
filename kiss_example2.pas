@@ -46,7 +46,7 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  SDL2,
+  SDL2, // Get this unit here: https://github.com/ev1313/Pascal-SDL-2-Headers
   SysUtils,
   kiss_general,
   kiss_posix,
