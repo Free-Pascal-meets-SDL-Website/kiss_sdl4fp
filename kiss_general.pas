@@ -115,10 +115,7 @@ implementation
     h: LongInt): LongInt;
   begin
     if not Assigned(rect) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     rect^.x := x;
     rect^.y := y;
     rect^.w := w;
@@ -168,10 +165,7 @@ implementation
   function kiss_array_new(a: Pkiss_array): LongInt;
   begin
     if not Assigned(a) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     a^.size := KISS_MIN_LENGTH;
     a^.length := 0;
     a^.ref := 1;
@@ -200,10 +194,7 @@ implementation
     i: LongInt;
   begin
     if not Assigned(a) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if a^.length >= a^.size then
     begin
       a^.size := a^.size * 2;
@@ -227,10 +218,7 @@ implementation
     p: PString;
   begin
     if (not Assigned(a)) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     New(p);
     kiss_string_copy(p^, text1, text2);
     kiss_array_append(a, id, p);
@@ -242,15 +230,11 @@ implementation
     i: LongInt;
   begin
     if (not Assigned(a)) or (a^.ref = 0) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if a^.ref > 1 then
     begin
       Dec(a^.ref);
-      Result := 0;
-      Exit;
+      Exit(0);
     end;
     if a^.length > 0 then
     begin

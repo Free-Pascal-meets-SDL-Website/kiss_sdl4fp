@@ -141,10 +141,7 @@ implementation
     width: LongInt;
   begin
     if (str1 = '') and (str2 = '') then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     kiss_string_copy(buf, str1, str2);
     TTF_SizeUTF8(font.font, PChar(buf), @width, nil);
     Result := width;
@@ -156,10 +153,7 @@ implementation
     dst: TSDL_Rect;
   begin
     if (not Assigned(renderer)) or (not Assigned(image.image)) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     kiss_makerect(@dst, x, y, image.w, image.h);
     if Assigned(clip) then
       dst.w := clip^.w;
@@ -173,10 +167,7 @@ implementation
     color: TSDL_Color): LongInt;
   begin
     if (not Assigned(renderer)) or (not Assigned(rect)) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, rect);
     Result := 0;
@@ -191,10 +182,7 @@ implementation
     d := 2 * edge;
     if (not Assigned(renderer)) or (not Assigned(rect)) or (rect^.w < d + 6)
       or (rect^.h < d + 6) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     for i := 0 to 1 do
     begin
@@ -218,10 +206,7 @@ implementation
   begin
     if (not(text <> '')) or (not Assigned(renderer)) or
       (not Assigned(font.font)) then
-      begin
-        Result := -1;
-        Exit;
-      end;
+      Exit(-1);
     surface := TTF_RenderUTF8_Blended(font.font, PChar(text), color);
     image.image := SDL_CreateTextureFromSurface(renderer, surface);
     SDL_QueryTexture(image.image, nil, nil, @image.w, @image.h);
@@ -236,16 +221,12 @@ implementation
     renderer: PSDL_Renderer): LongInt;
   begin
     if (not Assigned(image)) or (fname = '') then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     image^.image := IMG_LoadTexture(renderer,PChar(RESDIR+fname));
     if not Assigned(image^.image) then
     begin
       writeln('Cannot load image ', fname);
-      Result := -1;
-      Exit;
+      Exit(-1);
     end;
     if Assigned(a) then
       kiss_array_append(a, TEXTURE_TYPE, image^.image);
@@ -258,16 +239,12 @@ implementation
     size: LongInt): LongInt;
   begin
     if (not Assigned(font)) or (fname = '') then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     font^.font:=TTF_OpenFont(PChar(RESDIR+fname), size);
     if not Assigned(font^.font) then
     begin
       writeln('Cannot load font ', fname);
-      Result := -1;
-      Exit;
+      Exit(-1);
     end;
     if Assigned(a) then
       kiss_array_append(a, FONT_TYPE, font^.font);
@@ -293,8 +270,7 @@ implementation
     if (not Assigned(a)) or (w > srect.w) or (h > srect.h) then
     begin
       SDL_Quit;
-      Result := nil;
-      Exit;
+      Exit(nil);
     end;
     kiss_screen_width := w;
     kiss_screen_height := h;
@@ -345,8 +321,7 @@ implementation
     if r > 0 then
     begin
       kiss_clean(a);
-      Result := nil;
-      Exit;
+      Exit(nil);
     end;
     Result := renderer;
   end;
@@ -356,10 +331,7 @@ implementation
     i: LongInt;
   begin
     if not Assigned(a) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if a^.length > 0 then
     begin
       for i:=a^.length-1 downto 0 do

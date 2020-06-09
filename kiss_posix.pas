@@ -99,10 +99,7 @@ implementation
   function kiss_chdir(path: string): LongInt;
   begin
     if SetCurrentDir(path) = False then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     Result := 0;
   end;
 
@@ -120,10 +117,7 @@ implementation
     dir: Pkiss_dir;
   begin
     if (name = '') then
-    begin
-      Result := nil;
-      Exit;
-    end;
+      Exit(nil);
     New(dir);
     dir^.ent.d_name := '';
     dir^.name := name;
@@ -131,8 +125,7 @@ implementation
     if (dir^.fhandle <> 0) then
     begin
       FreeAndNil(dir);
-      Result := nil;
-      Exit;
+      Exit(nil);
     end;
     Result := dir;
   end;
@@ -140,10 +133,7 @@ implementation
   function kiss_readdir(dirp: Pkiss_dir): Pkiss_dirent;
   begin
     if (dirp^.ent.d_name <> '') and (FindNext(dirp^.fdata) <> 0) then
-    begin
-      Result := nil;
-      Exit;
-    end;
+      Exit(nil);
     dirp^.ent.d_name := dirp^.fdata.Name;
     Result := @dirp^.ent;
   end;
@@ -151,10 +141,7 @@ implementation
   function kiss_closedir(dirp: Pkiss_dir): LongInt;
   begin
     if (not Assigned(dirp)) or (dirp^.fhandle <> 0) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     FindClose(dirp^.fdata);
 
     Dispose(dirp);          //Conv.: FreeAndNil(dirp) --> SIGSEV
@@ -165,10 +152,8 @@ implementation
   function kiss_isdir(s: Tkiss_stat): LongInt;
   begin
     if (s.Attr and faDirectory) = faDirectory then
-    begin
-      Result := 0;
-      Exit;
-    end else
+      Exit(0)
+    else
       Result := -1;
   end;
 

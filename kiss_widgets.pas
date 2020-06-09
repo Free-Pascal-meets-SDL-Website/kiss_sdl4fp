@@ -308,10 +308,7 @@ implementation
     decorate: LongInt; x: LongInt; y: LongInt; w: LongInt; h: LongInt): LongInt;
   begin
     if not Assigned(window) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     window^.bg := kiss_white;
     kiss_makerect(@window^.rect, x, y, w, h);
     window^.decorate := decorate;
@@ -326,25 +323,16 @@ implementation
   begin
     if (not Assigned(window)) or (not(window^.visible <> 0)) or
       (not Assigned(event)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
     if (not(window^.focus <> 0)) and ((not Assigned(window^.wdw)) or
       ((Assigned(window^.wdw)) and (not(window^.wdw^.focus <> 0)))) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_MOUSEBUTTONDOWN) and (kiss_pointinrect(event^.button.x,
       event^.button.y, @window^.rect) <> 0) then
-    begin
-      Result := 1;
-      Exit;
-    end;
+      Exit(1);
     Result := 0;
   end;
 
@@ -355,10 +343,7 @@ implementation
       window^.visible := window^.wdw^.visible;
     if (not Assigned(window)) or (not(window^.visible <> 0)) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     kiss_fillrect(renderer, @window^.rect, window^.bg);
     if (window^.decorate <> 0) then
       kiss_decorate(renderer, @window^.rect, kiss_blue, kiss_edge);
@@ -462,8 +447,7 @@ implementation
     begin
       button^.active := 0;
       draw^ := 1;
-      Result := 1;
-      Exit;
+      Exit(1);
     end
     else if (event^.type_ = SDL_MOUSEMOTION) and
       (kiss_pointinrect(event^.motion.x, event^.motion.y, @button^.rect) <> 0) then
@@ -479,8 +463,7 @@ implementation
       if (button^.active <> 0) then
       begin
         button^.active := 0;
-        Result := 1;
-        Exit;
+        Exit(1);
       end;
     end;
     Result := 0;
@@ -493,10 +476,7 @@ implementation
       button^.visible := button^.wdw^.visible;
     if (not Assigned(button)) or not(button^.visible <> 0) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if button^.active = 1 then
       kiss_renderimage(renderer, button^.activeimg, button^.rect.x,
         button^.rect.y, nil)
@@ -515,10 +495,7 @@ implementation
     wdw: Pkiss_window; x: LongInt; y: LongInt): LongInt;
   begin
     if not Assigned(selectbutton) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if (selectbutton^.selectedimg.magic <> KISS_MAGIC) then
       selectbutton^.selectedimg := kiss_selected;
     if (selectbutton^.unselectedimg.magic <> KISS_MAGIC) then
@@ -536,26 +513,19 @@ implementation
   begin
     if (not Assigned(selectbutton)) or (not(selectbutton^.visible <> 0)) or
       (not Assigned(event)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
     if (not(selectbutton^.focus <> 0)) and ((not Assigned(selectbutton^.wdw)) or
       ((Assigned(selectbutton^.wdw)) and (not(selectbutton^.wdw^.focus <> 0)))) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_MOUSEBUTTONDOWN) and (kiss_pointinrect(event^.button.x,
       event^.button.y, @selectbutton^.rect) <> 0) then
     begin
       selectbutton^.selected := selectbutton^.selected xor 1;
       draw^ := 1;
-      Result := 1;
-      Exit;
+      Exit(1);
     end;
     Result := 0;
   end;
@@ -567,10 +537,7 @@ implementation
       selectbutton^.visible := selectbutton^.wdw^.visible;
     if (not Assigned(selectbutton)) or (not(selectbutton^.visible <> 0)) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (selectbutton^.selected <> 0) then
       kiss_renderimage(renderer, selectbutton^.selectedimg, selectbutton^.rect.x,
         selectbutton^.rect.y, nil)
@@ -584,10 +551,7 @@ implementation
     x: LongInt; y: LongInt; h: LongInt): LongInt;
   begin
     if not Assigned(vscrollbar) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if (vscrollbar^.up.magic <> KISS_MAGIC) then
       vscrollbar^.up := kiss_up;
     if (vscrollbar^.down.magic <> KISS_MAGIC) then
@@ -596,10 +560,7 @@ implementation
       vscrollbar^.vslider := kiss_vslider;
     if (vscrollbar^.up.h + vscrollbar^.down.h + 2 * kiss_edge +
       2 * kiss_slider_padding + vscrollbar^.vslider.h > h) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     kiss_makerect(@vscrollbar^.uprect, x, y + kiss_edge,
       vscrollbar^.up.w, vscrollbar^.up.h + kiss_slider_padding);
     kiss_makerect(@vscrollbar^.downrect, x, y + h - vscrollbar^.down.h -
@@ -643,10 +604,7 @@ implementation
     draw: PLongInt): LongInt;
   begin
     if not Assigned(vscrollbar) or not(vscrollbar^.visible <> 0) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if not((SDL_GetMouseState(nil, nil) and SDL_Button(SDL_BUTTON_LEFT)) <> 0) then
     begin
       vscrollbar^.upclicked := 0;
@@ -657,30 +615,22 @@ implementation
       (vscrollbar^.lasttick + kiss_click_interval)) then
     begin
       vnewpos(vscrollbar, -vscrollbar^.step, draw);
-      Result := 1;
-      Exit;
+      Exit(1);
     end
     else if (vscrollbar^.downclicked <> 0) and (kiss_getticks >
       (vscrollbar^.lasttick + kiss_click_interval)) then
     begin
       vnewpos(vscrollbar, vscrollbar^.step, draw);
-      Result := 1;
-      Exit;
+      Exit(1);
     end;
     if not Assigned(event) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
     if (not(vscrollbar^.focus <> 0)) and ((not Assigned(vscrollbar^.wdw)) or
       (Assigned(vscrollbar^.wdw) and (not(vscrollbar^.wdw^.focus <> 0)))) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_MOUSEBUTTONDOWN) and (kiss_pointinrect(event^.button.x,
       event^.button.y, @(vscrollbar^.uprect)) <> 0) and
       (vscrollbar^.fraction > 0.000001) then
@@ -728,8 +678,7 @@ implementation
       (vscrollbar^.sliderclicked = 1) then
     begin
       vnewpos(vscrollbar, 1.0 * event^.motion.yrel / vscrollbar^.maxpos, draw);
-      Result := 1;
-      Exit;
+      Exit(1);
     end;
     Result := 0;
   end;
@@ -741,10 +690,7 @@ implementation
       vscrollbar^.visible := vscrollbar^.wdw^.visible;
     if (not Assigned(vscrollbar)) or not(vscrollbar^.visible <> 0) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     vscrollbar^.sliderrect.y := vscrollbar^.uprect.y +
       vscrollbar^.uprect.h + Round(vscrollbar^.fraction * vscrollbar^.maxpos);
     kiss_renderimage(renderer, vscrollbar^.up, vscrollbar^.uprect.x,
@@ -760,10 +706,7 @@ implementation
     x: LongInt; y: LongInt; w: LongInt): LongInt;
   begin
     if not Assigned(hscrollbar) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if (hscrollbar^.left.magic <> KISS_MAGIC) then
       hscrollbar^.left := kiss_left;
     if (hscrollbar^.right.magic <> KISS_MAGIC) then
@@ -772,10 +715,7 @@ implementation
       hscrollbar^.hslider := kiss_hslider;
     if (hscrollbar^.left.w + hscrollbar^.right.w + 2 * kiss_edge +
       2 * kiss_slider_padding + hscrollbar^.hslider.w > w) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     kiss_makerect(@hscrollbar^.leftrect, x + kiss_edge, y, hscrollbar^.left.w +
       kiss_slider_padding, hscrollbar^.left.h);
     kiss_makerect(@hscrollbar^.rightrect, x + w - hscrollbar^.right.w -
@@ -819,10 +759,7 @@ implementation
     draw: PLongInt): LongInt;
   begin
     if (not Assigned(hscrollbar)) or (not(hscrollbar^.visible <> 0)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if not((SDL_GetMouseState(nil, nil) and
       SDL_BUTTON(SDL_BUTTON_LEFT)) <> 0) then
     begin
@@ -834,30 +771,22 @@ implementation
       hscrollbar^.lasttick + kiss_click_interval) then
     begin
       hnewpos(hscrollbar, -hscrollbar^.step, draw);
-      Result := 1;
-      Exit;
+      Exit(1);
     end
     else if (hscrollbar^.rightclicked <> 0) and (kiss_getticks >
       hscrollbar^.lasttick + kiss_click_interval) then
     begin
       hnewpos(hscrollbar, hscrollbar^.step, draw);
-      Result := 1;
-      Exit;
+      Exit(1);
     end;
     if not Assigned(event) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
     if (not(hscrollbar^.focus <> 0) and (not Assigned(hscrollbar^.wdw) or
       (Assigned(hscrollbar^.wdw) and not(hscrollbar^.wdw^.focus <> 0)))) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_MOUSEBUTTONDOWN) and
       (kiss_pointinrect(event^.button.x, event^.button.y,
       @hscrollbar^.leftrect) <> 0) then
@@ -908,8 +837,7 @@ implementation
       (hscrollbar^.sliderclicked <> 0) then
     begin
       hnewpos(hscrollbar, 1. * event^.motion.xrel / hscrollbar^.maxpos, draw);
-      Result := 1;
-      Exit;
+      Exit(1);
     end;
     Result := 0;
   end;
@@ -921,10 +849,7 @@ implementation
       hscrollbar^.visible := hscrollbar^.wdw^.visible;
     if (not Assigned(hscrollbar)) or (not(hscrollbar^.visible <> 0)) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     hscrollbar^.sliderrect.x := hscrollbar^.leftrect.x +
       hscrollbar^.leftrect.w + Round(hscrollbar^.fraction *
       hscrollbar^.maxpos);
@@ -941,10 +866,7 @@ implementation
     wdw: Pkiss_window; x: LongInt; y: LongInt; w: LongInt): LongInt;
   begin
     if (not Assigned(progressbar)) or (w < 2 * kiss_border + 1) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if (progressbar^.bar.magic <> KISS_MAGIC) then
       progressbar^.bar := kiss_bar;
     progressbar^.bg := kiss_white;
@@ -965,10 +887,7 @@ implementation
     event: PSDL_Event; draw: PLongInt): LongInt;
   begin
     if (not Assigned(progressbar)) or not(progressbar^.visible <> 0) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (progressbar^.run <> 0) and (kiss_getticks > progressbar^.lasttick +
       kiss_progress_interval) then
     begin
@@ -993,10 +912,7 @@ implementation
       progressbar^.visible := progressbar^.wdw^.visible;
     if (not Assigned(progressbar)) or (not(progressbar^.visible <> 0)) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     kiss_fillrect(renderer, @progressbar^.rect, progressbar^.bg);
     kiss_decorate(renderer, @progressbar^.rect, kiss_blue, kiss_edge);
     progressbar^.barrect.w := Round(
@@ -1039,19 +955,13 @@ implementation
   begin
     if (not Assigned(entry)) or (not(entry^.visible <> 0)) or
       (not Assigned(event)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
     if (not(entry^.focus <> 0)) and ((not Assigned(entry^.wdw)) or
       ((Assigned(entry^.wdw)) and (not(entry^.wdw^.focus <> 0)))) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_MOUSEBUTTONDOWN) and (not(entry^.active <> 0)) and
       (kiss_pointinrect(event^.button.x, event^.button.y, @entry^.rect) <> 0) then
     begin
@@ -1071,8 +981,7 @@ implementation
         entry^.wdw^.focus := 1;
       entry^.focus := 0;
       draw^ := 1;
-      Result := 1;
-      Exit;
+      Exit(1);
     end
     else if (event^.type_ = SDL_TEXTINPUT) and (entry^.active <> 0) then
     begin
@@ -1112,10 +1021,7 @@ implementation
       entry^.visible := entry^.wdw^.visible;
     if (not Assigned(entry)) or (not(entry^.visible <> 0)) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     kiss_fillrect(renderer, @entry^.rect, entry^.bg);
     color := kiss_blue;
     if entry^.active <> 0 then
@@ -1135,17 +1041,11 @@ implementation
     h: LongInt): LongInt;
   begin
     if (not Assigned(textbox)) or (not Assigned(a)) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if (textbox^.font.magic <> KISS_MAGIC) then
       textbox^.font := kiss_textfont;
     if (h - 2 * kiss_border < textbox^.font.lineheight) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     textbox^.bg := kiss_white;
     textbox^.textcolor := kiss_black;
     textbox^.hlcolor := kiss_lightblue;
@@ -1183,19 +1083,13 @@ implementation
     if (not Assigned(textbox)) or (textbox^.visible = 0) or
       (not Assigned(event)) or (not Assigned(textbox^.array_)) or
       (textbox^.array_^.length = 0) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
     if (not(textbox^.focus <> 0)) and ((not Assigned(textbox^.wdw)) or
       (Assigned(textbox^.wdw) and (not(textbox^.wdw^.focus <> 0)))) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_MOUSEBUTTONDOWN) and
       (kiss_pointinrect(event^.button.x, event^.button.y,
       @textbox^.textrect) <> 0) then
@@ -1206,8 +1100,7 @@ implementation
       if (texty < textmaxy) then
       begin
         textbox^.selectedline := texty div textbox^.font.lineheight;
-        Result := 1;
-        Exit;
+        Exit(1);
       end;
     end
     else if (event^.type_ = SDL_MOUSEMOTION) and
@@ -1243,10 +1136,7 @@ implementation
       textbox^.visible := textbox^.wdw^.visible;
     if (not Assigned(textbox)) or (textbox^.visible = 0) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     kiss_fillrect(renderer, @textbox^.rect, textbox^.bg);
     if (textbox^.decorate <> 0) then
       kiss_decorate(renderer, @textbox^.rect, kiss_blue, kiss_edge);
@@ -1259,10 +1149,7 @@ implementation
       kiss_fillrect(renderer, @highlightrect, textbox^.hlcolor);
     end;
     if (not Assigned(textbox^.array_)) or (textbox^.array_^.length = 0) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     numoflines := textbox_numoflines(textbox);
     for i := 0 to (numoflines - 1) do
     begin
@@ -1282,10 +1169,7 @@ implementation
     ): LongInt;
   begin
     if (not Assigned(combobox)) or (not Assigned(a)) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if (combobox^.combo.magic <> KISS_MAGIC) then
       combobox^.combo := kiss_combo;
     kiss_entry_new(@combobox^.entry, wdw, 1, text, x, y, w);
@@ -1294,17 +1178,11 @@ implementation
       w + combobox^.vscrollbar.up.w, h);
     if (kiss_textbox_new(@combobox^.textbox, @combobox^.window, 1, a, x,
       y + combobox^.entry.rect.h, w, h) = -1) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     if (kiss_vscrollbar_new(@combobox^.vscrollbar, @combobox^.window,
       x + combobox^.textbox.rect.w, combobox^.textbox.rect.y,
       combobox^.textbox.rect.h) = -1) then
-    begin
-      Result := -1;
-      Exit;
-    end;
+      Exit(-1);
     combobox^.visible := 0;
     combobox^.wdw := wdw;
     combobox^.vscrollbar.step := 0;
@@ -1320,10 +1198,7 @@ implementation
     firstline, index: LongInt;
   begin
     if (not Assigned(combobox)) or (not(combobox^.visible <> 0)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (kiss_vscrollbar_event(@combobox^.vscrollbar, event, draw) <> 0) and
       (combobox^.textbox.array_^.length - combobox^.textbox.maxlines >= 0) then
     begin
@@ -1338,10 +1213,7 @@ implementation
       draw^ := 1;
     end;
     if (not Assigned(event)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     if (event^.type_ = SDL_WINDOWEVENT) and
       (event^.window.event = SDL_WINDOWEVENT_EXPOSED) then
       draw^ := 1;
@@ -1358,8 +1230,7 @@ implementation
       combobox^.text := combobox^.entry.text;
       draw^ := 1;
       SDL_StopTextInput;
-      Result := 1;
-      Exit;
+      Exit(1);
     end
     else if (kiss_textbox_event(@combobox^.textbox, event, draw) <> 0) then
     begin
@@ -1373,8 +1244,7 @@ implementation
         PString(kiss_array_data(combobox^.textbox.array_, index))^, '');
       draw^ := 1;
       SDL_StopTextInput;
-      Result := 1;
-      Exit;
+      Exit(1);
     end;
     Result := 0;
   end;
@@ -1386,10 +1256,7 @@ implementation
       combobox^.visible := combobox^.wdw^.visible;
     if (not Assigned(combobox)) or (not(combobox^.visible <> 0)) or
       (not Assigned(renderer)) then
-    begin
-      Result := 0;
-      Exit;
-    end;
+      Exit(0);
     kiss_renderimage(renderer, combobox^.combo,
       combobox^.entry.rect.x + combobox^.entry.rect.w,
       combobox^.entry.rect.y + combobox^.entry.rect.h -
