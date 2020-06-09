@@ -116,22 +116,22 @@ implementation
   begin
     if not Assigned(rect) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     rect^.x := x;
     rect^.y := y;
     rect^.w := w;
     rect^.h := h;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_pointinrect(x: LongInt; y: LongInt; rect: PSDL_Rect): LongInt;
   begin
-    result := 0;
+    Result := 0;
     if (x >= rect^.x) and (x < rect^.x + rect^.w) and (y >= rect^.y) and
       (y < rect^.y + rect^.h) then
-      result := 1;
+      Result := 1;
   end;
 
   function kiss_string_copy(var dest: string; str1: string;
@@ -142,35 +142,35 @@ implementation
       dest := dest + str1;
     if not(str2 <> '') then
     begin
-      result := dest;
-      exit;
+      Result := dest;
+      Exit;
     end;
     dest := dest + str2;
-    result := dest;
+    Result := dest;
   end;
 
   function kiss_string_compare(const a: string; const b: string): LongInt;
   begin
-    result := CompareStr(a, b);
+    Result := CompareStr(a, b);
   end;
 
   function kiss_backspace(var str: string): string;
   begin
     if (str = '') then
     begin
-      result := str;
-      exit;
+      Result := str;
+      Exit;
     end;
     SetLength(str, Length(str)-1);
-    result := str;
+    Result := str;
   end;
 
   function kiss_array_new(a: Pkiss_array): LongInt;
   begin
     if not Assigned(a) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     a^.size := KISS_MIN_LENGTH;
     a^.length := 0;
@@ -182,17 +182,17 @@ implementation
   function kiss_array_data(a: Pkiss_array; index: LongInt): pointer;
   begin
     if (index < 0) or (index >= a^.size) or (not Assigned(a)) then
-      result := nil
+      Result := nil
     else
-      result := a^.data[index];
+      Result := a^.data[index];
   end;
 
   function kiss_array_id(var a: Pkiss_array; index: LongInt): LongInt;
   begin
     if (index < 0) or (index >= a^.size) or (not Assigned(a)) then
-      result := 0
+      Result := 0
     else
-      result := a^.id[index];
+      Result := a^.id[index];
   end;
 
   function kiss_array_append(a: Pkiss_array; id: LongInt; data: pointer): LongInt;
@@ -201,8 +201,8 @@ implementation
   begin
     if not Assigned(a) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     if a^.length >= a^.size then
     begin
@@ -218,7 +218,7 @@ implementation
     a^.data[a^.length] := data;
     a^.id[a^.length] := id;
     Inc(a^.length);
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_array_appendstring(a: Pkiss_array; id: LongInt;
@@ -228,13 +228,13 @@ implementation
   begin
     if (not Assigned(a)) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     New(p);
     kiss_string_copy(p^, text1, text2);
     kiss_array_append(a, id, p);
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_array_free(a: Pkiss_array): LongInt;
@@ -243,14 +243,14 @@ implementation
   begin
     if (not Assigned(a)) or (a^.ref = 0) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     if a^.ref > 1 then
     begin
       Dec(a^.ref);
-      result := 0;
-      exit;
+      Result := 0;
+      Exit;
     end;
     if a^.length > 0 then
     begin
@@ -267,7 +267,7 @@ implementation
     a^.size := 0;
     a^.length := 0;
     a^.ref := 0;
-    result := 0;
+    Result := 0;
   end;
 
 end.

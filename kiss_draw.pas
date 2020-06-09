@@ -131,7 +131,7 @@ implementation
 
   function kiss_getticks: dword;
   begin
-    result := SDL_GetTicks;
+    Result := SDL_GetTicks;
   end;
 
   function kiss_textwidth(font: kiss_font; str1: string; str2: string
@@ -142,12 +142,12 @@ implementation
   begin
     if (str1 = '') and (str2 = '') then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     kiss_string_copy(buf, str1, str2);
     TTF_SizeUTF8(font.font, PChar(buf), @width, nil);
-    result := width;
+    Result := width;
   end;
 
   function kiss_renderimage(renderer: PSDL_Renderer; image: kiss_image;
@@ -157,8 +157,8 @@ implementation
   begin
     if (not Assigned(renderer)) or (not Assigned(image.image)) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     kiss_makerect(@dst, x, y, image.w, image.h);
     if Assigned(clip) then
@@ -166,7 +166,7 @@ implementation
     if Assigned(clip) then
       dst.h := clip^.h;
     SDL_RenderCopy(renderer, image.image, clip, @dst);
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_fillrect(renderer: PSDL_Renderer; rect: PSDL_Rect;
@@ -174,12 +174,12 @@ implementation
   begin
     if (not Assigned(renderer)) or (not Assigned(rect)) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, rect);
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_decorate(renderer: PSDL_Renderer; rect: PSDL_Rect;
@@ -192,8 +192,8 @@ implementation
     if (not Assigned(renderer)) or (not Assigned(rect)) or (rect^.w < d + 6)
       or (rect^.h < d + 6) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     for i := 0 to 1 do
@@ -207,7 +207,7 @@ implementation
       );
       SDL_RenderDrawRect(renderer, @outlinerect);
     end;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_rendertext(renderer: PSDL_Renderer; text: string; x: LongInt;
@@ -219,8 +219,8 @@ implementation
     if (not(text <> '')) or (not Assigned(renderer)) or
       (not Assigned(font.font)) then
       begin
-        result := -1;
-        exit;
+        Result := -1;
+        Exit;
       end;
     surface := TTF_RenderUTF8_Blended(font.font, PChar(text), color);
     image.image := SDL_CreateTextureFromSurface(renderer, surface);
@@ -229,7 +229,7 @@ implementation
       SDL_FreeSurface(surface);
     kiss_renderimage(renderer, image, x, y, nil);
     SDL_DestroyTexture(image.image);
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_image_new(image: Pkiss_image; fname: string; a: Pkiss_array;
@@ -237,21 +237,21 @@ implementation
   begin
     if (not Assigned(image)) or (fname = '') then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     image^.image := IMG_LoadTexture(renderer,PChar(RESDIR+fname));
     if not Assigned(image^.image) then
     begin
       writeln('Cannot load image ', fname);
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     if Assigned(a) then
       kiss_array_append(a, TEXTURE_TYPE, image^.image);
     SDL_QueryTexture(image^.image, nil, nil, @image^.w, @image^.h);
     image^.magic := KISS_MAGIC;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_font_new(font: Pkiss_font; fname: string; a: Pkiss_array;
@@ -259,15 +259,15 @@ implementation
   begin
     if (not Assigned(font)) or (fname = '') then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     font^.font:=TTF_OpenFont(PChar(RESDIR+fname), size);
     if not Assigned(font^.font) then
     begin
       writeln('Cannot load font ', fname);
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     if Assigned(a) then
       kiss_array_append(a, FONT_TYPE, font^.font);
@@ -277,7 +277,7 @@ implementation
     font^.ascent := TTF_FontAscent(font^.font);
     TTF_GlyphMetrics(font^.font, Ord('W'), nil, nil, nil, nil, @font^.advance);
     font^.magic := KISS_MAGIC;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_init(title: Pchar; a: Pkiss_array; w: LongInt; h: LongInt
@@ -293,8 +293,8 @@ implementation
     if (not Assigned(a)) or (w > srect.w) or (h > srect.h) then
     begin
       SDL_Quit;
-      result := nil;
-      exit;
+      Result := nil;
+      Exit;
     end;
     kiss_screen_width := w;
     kiss_screen_height := h;
@@ -345,10 +345,10 @@ implementation
     if r > 0 then
     begin
       kiss_clean(a);
-      result := nil;
-      exit;
+      Result := nil;
+      Exit;
     end;
-    result := renderer;
+    Result := renderer;
   end;
 
   function kiss_clean(a: Pkiss_array): LongInt;
@@ -357,8 +357,8 @@ implementation
   begin
     if not Assigned(a) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     if a^.length > 0 then
     begin
@@ -399,7 +399,7 @@ implementation
     TTF_Quit;
     IMG_Quit;
     SDL_Quit;
-    result := 0;
+    Result := 0;
   end;
 
 end.

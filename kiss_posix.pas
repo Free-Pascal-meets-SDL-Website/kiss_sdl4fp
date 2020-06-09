@@ -93,17 +93,17 @@ implementation
   function kiss_getcwd(var buf: string): string;
   begin
     buf := GetCurrentDir;
-    result := GetCurrentDir;
+    Result := GetCurrentDir;
   end;
 
   function kiss_chdir(path: string): LongInt;
   begin
     if SetCurrentDir(path) = False then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
-    result := 0;
+    Result := 0;
   end;
 
   { Conv.: kiss_stat: contains file attr. like file creation date,
@@ -121,8 +121,8 @@ implementation
   begin
     if (name = '') then
     begin
-      result := nil;
-      exit;
+      Result := nil;
+      Exit;
     end;
     New(dir);
     dir^.ent.d_name := '';
@@ -131,35 +131,35 @@ implementation
     if (dir^.fhandle <> 0) then
     begin
       FreeAndNil(dir);
-      result := nil;
-      exit;
+      Result := nil;
+      Exit;
     end;
-    result := dir;
+    Result := dir;
   end;
 
   function kiss_readdir(dirp: Pkiss_dir): Pkiss_dirent;
   begin
     if (dirp^.ent.d_name <> '') and (FindNext(dirp^.fdata) <> 0) then
     begin
-      result := nil;
-      exit;
+      Result := nil;
+      Exit;
     end;
     dirp^.ent.d_name := dirp^.fdata.Name;
-    result := @dirp^.ent;
+    Result := @dirp^.ent;
   end;
 
   function kiss_closedir(dirp: Pkiss_dir): LongInt;
   begin
     if (not Assigned(dirp)) or (dirp^.fhandle <> 0) then
     begin
-      result := -1;
-      exit;
+      Result := -1;
+      Exit;
     end;
     FindClose(dirp^.fdata);
 
     Dispose(dirp);          //Conv.: FreeAndNil(dirp) --> SIGSEV
     dirp := nil;
-    result := 0;
+    Result := 0;
   end;
 
   function kiss_isdir(s: Tkiss_stat): LongInt;
@@ -167,7 +167,7 @@ implementation
     if (s.Attr and faDirectory) = faDirectory then
     begin
       Result := 0;
-      exit;
+      Exit;
     end else
       Result := -1;
   end;
