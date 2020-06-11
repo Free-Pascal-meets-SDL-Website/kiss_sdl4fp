@@ -18,6 +18,7 @@ program kiss_example1;
     kiss_draw.c (version 1.2.4).
 
   For more information on kiss_sdl4fp, visit:
+  https://github.com/Free-Pascal-meets-SDL-Website/kiss_sdl4fp
 
   Copyright (c) 2020 Matthias J. Molski
 
@@ -48,7 +49,7 @@ uses
   {$ENDIF}{$ENDIF}
   SysUtils,
   FileUtil, // Lazarus or Delphi unit
-  SDL2, // Get this unit here: https://github.com/ev1313/Pascal-SDL-2-Headers
+  SDL2, // Get it here: https://github.com/ev1313/Pascal-SDL-2-Headers
   kiss_draw,
   kiss_posix,
   kiss_general,
