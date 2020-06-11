@@ -365,9 +365,11 @@ implementation
     Result := 0;
   end;
 
-  function kiss_label_draw(label_: Pkiss_label; renderer: PSDL_Renderer): LongInt;
+  function kiss_label_draw(label_: Pkiss_label; renderer: PSDL_Renderer):
+    LongInt;
   var
     len, y: LongInt;
+    buf, p: string;
   begin
     if (Assigned(label_) and Assigned(label_^.wdw)) then
       label_^.visible := label_^.wdw^.visible;
@@ -375,23 +377,42 @@ implementation
       (not Assigned(renderer)) then
         Exit(0);
     y := label_^.rect.y + label_^.font.spacing div 2;
-    len := Length(label_^.text); // Conv.: Probably obsolete for Pascal Strings.
 
-    { Conv.: Original C Code: Inserts a line break, I guess.
-	  if (len > KISS_MAX_LABEL - 2)
-		  label->text[len - 1] = '\n';
-	  else
-		  strcat(label->text, "\n");
-	  for (p = label->text; *p; p = strchr(p, '\n') + 1) {
-		  kiss_string_copy(buf, strcspn(p, "\n") + 1, p, NULL);
-		  kiss_rendertext()renderer, buf, label->rect.x, y,
-			  label->font, label->textcolor);
-		  y += label->font.lineheight;
-	  }
+    { Conv.: The C code seems to fill up every string with a trail of \n's
+        until the limit of KISS_MAX_LABEL - 2 is reached (strcat expr.).
+        Just then the len - 1'th char is constantly replaced by \n. In the for-
+        loop all the \n's have to processed. This seems highly inefficient.
+
+        The (Pascal) solution implemented here doesn't reflect this and keeps
+        the original text saved in label_^.text untouched and is much more
+        efficient. The artificial limit (KISS_MAX_LABEL) of label text is
+        ignored.
+
+        Original C Code for comparision:
+          len = strlen(label->text);
+          if (len > KISS_MAX_LABEL - 2)
+	          label->text[len - 1] = '\n';
+          else
+	          strcat(label->text, "\n");
+          for (p = label->text; *p; p = strchr(p, '\n') + 1) {
+	          kiss_string_copy(buf, strcspn(p, "\n") + 1, p, NULL);
+
+	          kiss_rendertext()renderer, buf, label->rect.x, y,
+		          label->font, label->textcolor);
+	          y += label->font.lineheight;
+          }
     }
 
-    kiss_rendertext(renderer, label_^.text, label_^.rect.x, y, label_^.font,
-      label_^.textcolor);
+    p := label_^.text+LineEnding;
+    while Pos(LineEnding, p) <> 0 do
+    begin
+      kiss_string_copy(buf, Copy(p, 1, Pos(LineEnding, p) - 1), '');
+      kiss_rendertext(renderer, buf, label_^.rect.x, y, label_^.font,
+        label_^.textcolor);
+      y := y + label_^.font.lineheight;
+      p := Copy(p, Pos(LineEnding, p)+Length(LineEnding), Length(p) -
+        Pos(LineEnding, p)+Length(LineEnding));
+    end;
     Result := 1;
   end;
 

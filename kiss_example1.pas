@@ -194,11 +194,8 @@ begin
   if kiss_button_event(button, e, draw) <> 0 then
   begin
     kiss_string_copy(buf, label_sel^.text, entry^.text);
-    //kiss_string_copy(label_res^.text,
-    //  'The following path was selected:'+LineEnding, buf);
-                                { Conv.: C's \n newline cmd. doesn't work here;
-                                  not really necessary though. }
-    kiss_string_copy(label_res^.text, buf, '');
+    kiss_string_copy(label_res^.text, 'The following path was selected:' +
+      LineEnding, buf);
     window2^.visible := 1;
     window2^.focus := 1;
     window1^.focus := 0;
@@ -232,6 +229,7 @@ begin
 end;
 
 begin
+  setHeapTraceOutput('trace.log');
   quit := 0;
   draw := 1;
   textbox_width := 250;

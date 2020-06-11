@@ -1,11 +1,5 @@
-
 *.lps
-backup/kiss_draw.pas
-backup/kiss_example1.lpi
-backup/kiss_general.pas
-backup/kiss_posix.pas
-backup/kiss_widgets.pas
-backup/README.md
+backup/*.*
 *.lpi
 backup/kiss_example2.pas
 *.lpi
@@ -17,5 +11,5 @@ backup/kiss_example2.pas
 *.exe
 *.lpi
 *.lpi
-backup/kiss_example1.pas
 kiss_example1.lpi
+trace.log
