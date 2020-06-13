@@ -14,11 +14,28 @@ maintained by Tarvo Korrovits. You can find it here: https://github.com/actsl/ki
 * lightweight
 * easy to use, fast to grasp
 * highly flexible and extendable
+* adapt appearance and functionality to your need
 * perfectly suitable for most SDL2 applications
 * permissive software license (MIT)
 
-An extensive description and screenshots are found here: https://github.com/actsl/kiss_sdl.
-Some key quotes from this source by Tarvo:
+### Widgets
+
+* window
+* label
+* button
+* selectbutton
+* vertical scrollbar
+* horizontal scrollbar
+* progressbar
+* entry box
+* text box
+* combo box
+
+A detailed description and screenshots are found here: https://github.com/actsl/kiss_sdl.
+
+### Philosophy, Design and Workflow
+
+Some key quotes from this source by Tarvo (creator of kiss_sdl):
 
 *This toolkit was made as simple as possible, to solve the problem of an immense
 complexity of many existing toolkits, which makes it impossible for many people
@@ -35,20 +52,11 @@ implemented for the widgets, do all the automagical things, and the user can wri
 one's own function, using a base function inside it, to do any additional things
 that the user may want to do.*
 
-### Widgets
+I might add, this kit is not meant to be left untouched and just derive from it
+(although you can do that), but you should keep a copy of these sources in your
+project folder and adapt as much as you like by changing its code.
 
-* window
-* label
-* button
-* selectbutton
-* vertical scrollbar
-* horizontal scrollbar
-* progressbar
-* entry box
-* text box
-* combo box
-
-## Main Goal of kiss_sdl4fp
+## Main Goal of this conversion project, kiss_sdl4fp
 
 Keep the conversion (kiss_sdl4fp) *as close as possible* to the original code and to the
 concept of kiss_sdl.
@@ -58,7 +66,7 @@ concept of kiss_sdl.
 * unit names correspond to c file names
 * function, variable, constant names are kept as in the original code, although
 they contradict typical Pascal naming conventions
-* helper functions are sometimes used, although not always really necessary
+* helper functions are used as in original to enhance code readability
 * no use of OOP functionality, although writing wrappers could be done easily
 
 Nevertheless, the nature of Pascal made deviations from this rule necessary or
