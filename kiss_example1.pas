@@ -48,7 +48,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   SysUtils,
-  FileUtil, // Lazarus or Delphi unit
+  FileUtil, // Lazarus (add LazUtils) or Delphi unit
   SDL2, // Get it here: https://github.com/ev1313/Pascal-SDL-2-Headers
   kiss_draw,
   kiss_posix,
@@ -230,7 +230,6 @@ begin
 end;
 
 begin
-  setHeapTraceOutput('trace.log');
   quit := 0;
   draw := 1;
   textbox_width := 250;
