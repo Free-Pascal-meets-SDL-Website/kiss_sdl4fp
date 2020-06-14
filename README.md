@@ -104,7 +104,7 @@ plain source code files (kiss_example1.pas, kiss_example2.pas).
 
 ## Version
 
-1.0.0
+1.0.0-alpha
 
 ## License
 
