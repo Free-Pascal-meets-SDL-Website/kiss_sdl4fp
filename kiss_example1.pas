@@ -103,7 +103,7 @@ begin
   while (Assigned(ent)) do
   begin
     if (ent^.d_name = '') then
-      continue;
+      Continue;
     s := dir^.fdata;
     if (kiss_isdir(s) = 0) then
       kiss_array_appendstring(textbox1^.array_, STRING_TYPE, ent^.d_name,
@@ -242,7 +242,7 @@ begin
   window2_height := 168;
   renderer := kiss_init('kiss_sdl example 1', @objects, 640, 480);
   if not Assigned(renderer) then
-    halt(1);
+    Halt(1);
   kiss_array_new(@a1);
   kiss_array_append(@objects, ARRAY_TYPE, @a1);
   kiss_array_new(@a2);
@@ -322,7 +322,7 @@ begin
     kiss_progressbar_event(@progressbar, nil, @draw);
 
     if not(draw <> 0) then
-      continue;
+      Continue;
     SDL_RenderClear(renderer);
 
     kiss_window_draw(@window1, renderer);
