@@ -101,6 +101,7 @@ plain source code files (kiss_example1.pas, kiss_example2.pas).
 ## To-Do
 
 * check kiss_init(), esp. why acc. renderer doesn't work
+* add UTF8 support
 
 ## Version
 
