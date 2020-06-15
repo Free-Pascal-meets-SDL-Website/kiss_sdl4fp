@@ -85,7 +85,8 @@ function kiss_makerect(rect:PSDL_Rect; x:LongInt; y:LongInt; w:LongInt; h:LongIn
 
 function kiss_pointinrect(x:LongInt; y:LongInt; rect:PSDL_Rect):LongInt;
 
-function kiss_string_copy(var dest:string; str1:string; str2:string):string;
+function kiss_string_copy(var dest:string; const size: size_t;
+  const str1:string; const str2:string):string;
 
 function kiss_string_compare(const a:string; const b:string):LongInt;
 
@@ -143,6 +144,25 @@ implementation
       Exit;
     end;
     dest := dest + str2;
+    Result := dest;
+  end;
+
+  function kiss_string_copy(var dest: string; const size: size_t;
+    const str1: string; const str2: string): string;
+  var
+    len: LongInt;
+    p: string;
+  begin
+    dest := '';
+    if (size < 1) then
+      Exit(dest);
+    dest := Copy(str1, 1, size); // Conv.: Copy truncates string if size larger
+                                 //   than length of string. strncpy pads with
+                                 //   0-chars in this case.
+    len := Length(dest);
+    if (not(str2 <> '') or (size <= len)) then
+      Exit(dest);
+    dest := dest + Copy(str2, 1, size - len);
     Result := dest;
   end;
 
@@ -220,7 +240,7 @@ implementation
     if (not Assigned(a)) then
       Exit(-1);
     New(p);
-    kiss_string_copy(p^, text1, text2);
+    kiss_string_copy(p^, KISS_MAX_LENGTH, text1, text2);
     kiss_array_append(a, id, p);
     Result := 0;
   end;

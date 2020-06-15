@@ -96,7 +96,8 @@ begin
   kiss_array_new(textbox1^.array_);
   kiss_array_new(textbox2^.array_);
   kiss_getcwd(buf);
-  kiss_string_copy(label_sel^.text, buf, DirectorySeparator);
+  kiss_string_copy(label_sel^.text, (2 * textbox1^.rect.w + 2 * kiss_up.w) div
+    kiss_textfont.advance, buf, DirectorySeparator);
   dir := kiss_opendir(AllDirectoryEntriesMask);
   ent := kiss_readdir(dir);
   while (Assigned(ent)) do
@@ -162,7 +163,7 @@ begin
     index := textbox^.firstline + textbox^.selectedline;
     if PAnsiString(kiss_array_data(textbox^.array_, index))^ <> '' then
     begin
-      kiss_string_copy(entry^.text,
+      kiss_string_copy(entry^.text, entry^.textwidth div kiss_textfont.advance,
         PAnsiString(kiss_array_data(textbox^.array_, index))^, '');
       draw^ := 1;
     end;
@@ -194,9 +195,11 @@ var
 begin
   if kiss_button_event(button, e, draw) <> 0 then
   begin
-    kiss_string_copy(buf, label_sel^.text, entry^.text);
-    kiss_string_copy(label_res^.text, 'The following path was selected:' +
-      LineEnding, buf);
+    kiss_string_copy(buf, kiss_maxlength(kiss_textfont, window2^.rect.w - 2 *
+      kiss_vslider.w, label_sel^.text, entry^.text), label_sel^.text,
+      entry^.text);
+    kiss_string_copy(label_res^.text, KISS_MAX_LABEL,
+      'The following path was selected:' + LineEnding, buf);
     window2^.visible := 1;
     window2^.focus := 1;
     window1^.focus := 0;
@@ -230,6 +233,7 @@ begin
 end;
 
 begin
+  //SetHeapTraceOutput('trace.log');   Conv.: For debug, delete this line.
   quit := 0;
   draw := 1;
   textbox_width := 250;

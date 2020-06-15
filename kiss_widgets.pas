@@ -359,7 +359,7 @@ implementation
       label_^.font := kiss_textfont;
     label_^.textcolor := kiss_black;
     kiss_makerect(@label_^.rect, x, y, 0, 0);
-    kiss_string_copy(label_^.text, text, '');
+    kiss_string_copy(label_^.text, KISS_MAX_LABEL, text, '');
     label_^.visible := 0;
     label_^.wdw := wdw;
     Result := 0;
@@ -381,7 +381,7 @@ implementation
     { Conv.: The C code seems to fill up every string with a trail of \n's
         until the limit of KISS_MAX_LABEL - 2 is reached (strcat expr.).
         Just then the len - 1'th char is constantly replaced by \n. In the for-
-        loop all the \n's have to processed. This seems highly inefficient.
+        loop all the \n's have to be processed. This seems highly inefficient.
 
         The (Pascal) solution implemented here doesn't reflect this and keeps
         the original text saved in label_^.text untouched and is much more
@@ -406,7 +406,7 @@ implementation
     p := label_^.text+LineEnding;
     while Pos(LineEnding, p) <> 0 do
     begin
-      kiss_string_copy(buf, Copy(p, 1, Pos(LineEnding, p) - 1), '');
+      kiss_string_copy(buf, Pos(LineEnding, p) - 1, p, '');
       kiss_rendertext(renderer, buf, label_^.rect.x, y, label_^.font,
         label_^.textcolor);
       y := y + label_^.font.lineheight;
@@ -1174,7 +1174,8 @@ implementation
     numoflines := textbox_numoflines(textbox);
     for i := 0 to (numoflines - 1) do
     begin
-      kiss_string_copy(buf,
+      kiss_string_copy(buf, kiss_maxlength(textbox^.font, textbox^.textwidth,
+        PString(kiss_array_data(textbox^.array_, textbox^.firstline + i))^, ''),
         PString(kiss_array_data(textbox^.array_, textbox^.firstline + i))^,
         '');
       kiss_rendertext(renderer, buf, textbox^.textrect.x,

@@ -193,6 +193,7 @@ begin
 end;
 
 begin
+  //SetHeapTraceOutput('trace.log');   Conv.: For debug, delete this line.
   quit := 0;
   draw := 1;
   first := 0;
@@ -203,13 +204,13 @@ begin
   entry_width := 250;
   renderer := kiss_init('kiss_sdl example 2', @objects, 640, 480);
   if not Assigned(renderer) then
-    halt(1);
+    Halt(1);
   kiss_array_new(@a);
   i := 0;
   while cities[i].population <> 0 do
   begin
-    kiss_array_appendstring(@a, 0, cities[i].name, '');
-    inc(i);
+    kiss_array_appendstring(@a, STRING_TYPE, cities[i].name, '');
+    Inc(i);
   end;
   kiss_array_append(@objects, ARRAY_TYPE, @a);
 

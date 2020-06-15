@@ -99,8 +99,8 @@ var
 
 function kiss_getticks:dword;
 
-//function kiss_maxlength(font:kiss_font; width:LongInt; str1:Pchar;
-//  str2:Pchar):LongInt;
+function kiss_maxlength(font:kiss_font; width:LongInt; str1:string;
+  str2:string):LongInt;
 
 function kiss_textwidth(font:kiss_font; str1:string; str2:string):LongInt;
 
@@ -134,6 +134,26 @@ implementation
     Result := SDL_GetTicks;
   end;
 
+  function kiss_maxlength(font: kiss_font; width: LongInt; str1: string;
+    str2: string): LongInt;
+  var
+    buf: string;
+    n, i: LongInt;
+  begin
+    n := 0;
+    if not(str1 <> '') and not(str2 <> '') then
+      Exit(-1);
+    kiss_string_copy(buf, KISS_MAX_LENGTH, str1, str2);
+    { Maximum length + 1 for '\0', by the rule }
+    for i := 0 to (Length(buf) - 1) do
+    begin
+      Inc(n);
+      if (n * font.advance > width) then
+        Exit(i + 1);
+    end;
+    Result := i + 1;
+  end;
+
   function kiss_textwidth(font: kiss_font; str1: string; str2: string
     ): LongInt;
   var
@@ -142,7 +162,7 @@ implementation
   begin
     if (str1 = '') and (str2 = '') then
       Exit(-1);
-    kiss_string_copy(buf, str1, str2);
+    kiss_string_copy(buf, KISS_MAX_LENGTH, str1, str2);
     TTF_SizeUTF8(font.font, PChar(buf), @width, nil);
     Result := width;
   end;
